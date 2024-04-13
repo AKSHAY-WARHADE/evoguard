@@ -1,0 +1,59 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles1.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                
+                <div class="list-group list-group-flush">
+                    
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'user_dashboard' %}">Dashboard</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'complaint' %}">New Complaint</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'user_complaints' %}">Your Complaints</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'user_profile' %}">Profile</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="{% url 'user_settings' %}">Settings</a>
+                        
+                       
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script>
+            window.addEventListener('DOMContentLoaded', event => {
+                // Toggle the side navigation
+                const sidebarToggle = document.body.querySelector('#sidebarToggle');
+                const sidebarWrapper = document.getElementById('sidebar-wrapper');
+                
+                if (sidebarToggle && sidebarWrapper) {
+                    sidebarToggle.addEventListener('click', event => {
+                        event.preventDefault();
+                        sidebarWrapper.classList.toggle('collapsed'); // Add a class for collapsed state
+                        const isCollapsed = sidebarWrapper.classList.contains('collapsed');
+                        localStorage.setItem('sb|sidebar-toggle', isCollapsed ? 'collapsed' : ''); // Save state to local storage
+                    });
+        
+                    // Check if the sidebar should be initially collapsed based on local storage
+                    const isCollapsed = localStorage.getItem('sb|sidebar-toggle') === 'collapsed';
+                    if (isCollapsed) {
+                        sidebarWrapper.classList.add('collapsed');
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
+

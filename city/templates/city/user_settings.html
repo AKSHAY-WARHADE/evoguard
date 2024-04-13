@@ -1,0 +1,171 @@
+{% extends 'city/navbar.html' %}  
+{% block title %}
+<title>Evo Guard | Account Settings</title>
+{% endblock title %} 
+{% load static %}
+{% block content %}
+<style>
+    /* Your custom styles here */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .account-settings {
+        max-width: 400px;
+        margin: 0 auto;
+        text-align: center; /* Center align the content */
+    }
+
+    .account-settings h2 {
+        margin-top: 0;
+    }
+
+    .account-settings p {
+        margin-bottom: 10px;
+    }
+
+    .account-settings button {
+        padding: 10px 20px;
+        background-color: #dc3545; /* Use a red color for delete button */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .reset-password-form {
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    .reset-password-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .reset-password-form label {
+        display: block;
+        font-weight: bold;
+    }
+
+    .reset-password-form input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .reset-password-form button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    /* Style the modal or overlay */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Style the close button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+</style>
+
+<div class="d-flex">
+    <!-- Include the sidebar -->
+    {% include 'city/sidebar.html' %}
+    
+    <!-- Main content -->
+    <div class="container">
+        <div class="account-settings">
+            <h2>Account Settings</h2>
+            <div class="reset-password-form">
+                <h3>Reset Password</h3>
+                <form action="{% url 'user_settings' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_old_password">Old Password:</label>
+                        <input type="password" id="id_old_password" name="old_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_new_password1">New Password:</label>
+                        <input type="password" id="id_new_password1" name="new_password1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_new_password2">Confirm New Password:</label>
+                        <input type="password" id="id_new_password2" name="new_password2" required>
+                    </div>
+                    <button type="submit">Reset Password</button>
+                </form>
+            </div>
+        <!-- Hidden modal or overlay element -->
+<div id="success-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Your password was successfully updated!</p>
+    </div>
+  </div>    
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('reset-password-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    fetch('{% url "user_settings" %}', {
+        method: 'POST',
+        body: new FormData(this),
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show the success message within the same page
+            document.getElementById('success-modal').style.display = 'block';
+            
+            // Optionally, you can redirect to another page after a delay
+            setTimeout(function() {
+                window.location.href = '{% url "login" %}';
+            }, 3000); // Redirect after 3 seconds
+        } else {
+            let errorMessage = '';
+        for (const [key, value] of Object.entries(data.errors)) {
+            errorMessage += value.join(', ') + '\n';
+        }
+        alert(errorMessage);        
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again later.');
+    });
+});
+</script>
+
+{% endblock content %}

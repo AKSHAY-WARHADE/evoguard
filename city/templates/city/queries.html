@@ -1,0 +1,57 @@
+{% extends 'city/navbar.html' %} {% load static %} {% block title %}
+<title>Evo Guard | Queries</title>
+{% endblock title %} {% block content %}
+<style>
+  #section {
+    height: 100% !important;
+
+    margin: 0;
+    padding: 0;
+    display: flex;
+
+    background-size: cover;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .table-container {
+        flex: 1; /* Take remaining space */
+    }
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    
+</style>
+<form method="POST">
+  {% csrf_token %}
+  <div id="section">
+    {%include 'city/empbar.html' %}
+  <div class="table-container">
+
+  <table class="table">
+    <tr>
+      <th>No</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Query</th>
+    </tr>
+
+    {% for query in queries %}
+    <tr>
+      <td>{{query.id}}</td>
+      <td>{{query.name}}</td>
+      <td>{{query.email}}</td>
+      <td>{{query.message}}</td>
+    </tr>
+
+    {% endfor %}
+  </table>
+  <div class="center">
+    <input type="submit" value="Delete All" class="btn btn-danger" />
+  </div>
+  </div>
+</div>
+</form>
+{% endblock content %}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Location</title>
+    <style>
+        .container{
+            container:  flex; 
+            justify-content: center; 
+            align-items: center;  
+            height: 100vh;    
+        }
+        .geoBtn {
+            align-self: center;
+            background: #5cb85c;
+            color: white;
+            padding: 7px 23px;  
+            border: black;
+            cursor: pointer;
+            font-size: 16px
+            }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+    <button class="geoBtn">Show User Location</button>
+    <p class="showDetails">User Details</p>
+    <p class="fullAdd">Full Address</p>
+    <p class="formatAdd"> Formated Address</p>
+    </div>
+
+
+    <script>
+        const showDetails = document.querySelector(".showDetails");
+        const fullAdd=document.querySelector(".fullAdd");
+        const formatAdd=document.querySelector(".formatAdd");
+
+
+        let apiEndpoint = "https://api.opencagedata.com/geocode/v1/json";
+        let apiKey="68696258a356455ebbe7d347b994775a";
+        
+        const getUserCurrentAdd =async (latitude,longitude) => {
+            let query = `${latitude},${longitude}`;
+            let apiUrl =`${apiEndpoint}?key=${apiKey}&q=${query}&pretty=1`;
+
+            try{
+                const response = await fetch(apiUrl);
+                const data= await response.json();
+                const {suburb,city,state,postcode}=data.results[0].components;
+                fullAdd.textContent =`User Address: ${suburb}, ${city}, ${state}, ${postcode}`;
+                formatAdd.textContent=`Full Address: ${data.results[0].formatted}`;
+            }
+            catch(error){
+                console.log("Error", error);
+            }
+        };
+        
+
+        document.querySelector(".geoBtn").addEventListener("click", ()=>{
+            if (navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(
+                    (position)=>{
+                        const {latitude,longitude} = position.coords;
+                        showDetails.textContent = `The Latitude ${latitude} & Longitude ${longitude}`;
+                        getUserCurrentAdd(latitude,longitude);
+                    },
+                
+                
+                    (error) => {
+                        showDetails.textContent = error.message;
+                                    }
+                );
+            }
+
+        });
+        
+
+
+
+    </script>
+</body>
+</html>     

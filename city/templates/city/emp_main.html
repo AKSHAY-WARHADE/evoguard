@@ -1,0 +1,141 @@
+{% extends 'city/navbar.html' %} {% block title %}
+<title>Evo Guard| Employee Dashboard</title>
+{% endblock title %} {% block content %}
+<style>
+  /* Your custom styles here */
+  body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Adjustments for dashboard layout */
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.dashboard-item {
+    flex: 1 1 300px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+/* Other styles */
+.welcome-message {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    margin: 0;
+}
+
+.activity-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-list li {
+    margin-bottom: 10px;
+}
+
+/* Search form styles */
+.search-form-container {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center; /* Center align the content horizontally */
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.search-form button {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+</style>
+<div class="d-flex">
+  <!-- Include the sidebar -->
+  {%include 'city/empbar.html'%}
+  <!-- Main content -->
+    <div>
+        <h1 class="text-center">Welcome {{user}} to the employee dashboard!</h1>
+    <p class="lead text-center">Here you can view and manage your tasks, see statistics about the Complaints and Queries.</p>
+  </div>
+  
+    <div class="dashboard-container">
+      <!-- Recent Activity -->
+      <div class="dashboard-item">
+          <h2>Recent Activity</h2>
+          <ul class="activity-list">
+              <!-- Example activity items -->
+              <li>Logged in at {{ user.last_login }}</li>
+              <!-- Add more activity items here -->
+          </ul>
+      </div>
+      <!-- Quick Links -->
+      <div class="dashboard-item">
+          <h2>Quick Links</h2>
+          <ul>
+              <li><a href="{% url 'new_complaints' %}">Complaints Received</a></li>
+              <li><a href="{% url 'queries' %}">Queries</a></li>
+              <!-- Add more quick links here -->
+          </ul>
+      </div>
+      <div class="dashboard-item">
+        <h2>Search Complaints</h2>
+        <form class="search-form" action="{% url 'complaint_search_results' %}" method="GET">
+        <input type="text" id="searchQuery" placeholder="Search by City, Area, Pincode, or Complaint Type">
+        <button type="button" onclick="searchComplaints()">Search</button>
+        </form>
+        </div>
+    </div>
+      
+    
+</div>
+<script>
+  function searchComplaints() {
+    // Get the search query entered by the user
+    var query = document.getElementById('searchQuery').value;
+    
+    // Redirect to the search results page with the query as a parameter
+    window.location.href = '/search/?query=' + encodeURIComponent(query);
+  }
+</script>
+
+{% endblock content %}
+

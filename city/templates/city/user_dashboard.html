@@ -1,0 +1,97 @@
+{% extends 'city/navbar.html' %}  {% block title %}
+<title>Evo Guard| Dashboard</title>
+{% endblock title %} {% load static %}{% block content %}
+<style>
+    /* Your custom styles here */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Adjustments for dashboard layout */
+    .dashboard-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .dashboard-item {
+        flex: 0 1 auto;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        min-width: 300px; 
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    /* Other styles */
+    .welcome-message {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .profile-info {
+        margin-bottom: 20px;
+    }
+
+    .profile-info p {
+        margin: 0;
+    }
+
+    .activity-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .activity-list li {
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="d-flex">
+    <!-- Include the sidebar -->
+    {% include 'city/sidebar.html' %}
+    
+    <!-- Main content -->
+    <div class="dashboard-container">
+        <!-- Welcome Message -->
+        <div class="dashboard-item">
+            <h2 class="welcome-message">Welcome, {{ user.username }}!</h2>
+            <p>This is your dashboard. Here you can manage your account and access important information.</p>
+        </div>
+        <!-- Profile Overview -->
+        <div class="dashboard-item">
+            <h2>Profile Overview</h2>
+            <div class="profile-info">
+                <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <!-- Add more profile information here -->
+            </div>
+        </div>
+        <!-- Recent Activity -->
+        <div class="dashboard-item">
+            <h2>Recent Activity</h2>
+            <ul class="activity-list">
+                <!-- Example activity items -->
+                <li>Logged in at {{ user.last_login }}</li>
+                <!-- Add more activity items here -->
+            </ul>
+        </div>
+        <!-- Quick Links -->
+        <div class="dashboard-item">
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="{% url 'user_profile' %}">View Profile</a></li>
+                <li><a href="{% url 'user_settings' %}">Account Settings</a></li>
+                <!-- Add more quick links here -->
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}

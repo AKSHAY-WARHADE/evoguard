@@ -1,0 +1,91 @@
+{% extends 'city/navbar.html' %}  
+{% block title %}
+<title>Evo Guard | User Profile</title>
+{% endblock title %} 
+{% load static %}
+{% block content %}
+<style>
+    /* Your custom styles here */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .profile-details {
+        max-width: 400px;
+        margin: 0 auto;
+        text-align: center; /* Center align the content */
+    }
+
+    .profile-details h2 {
+        margin-top: 0;
+    }
+
+    .profile-details p {
+        margin-bottom: 10px;
+    }
+
+    .edit-profile-form {
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    .edit-profile-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .edit-profile-form label {
+        display: block;
+        font-weight: bold;
+    }
+
+    .edit-profile-form input[type="text"]
+     {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .edit-profile-form button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="d-flex">
+    <!-- Include the sidebar -->
+    {% include 'city/sidebar.html' %}
+    
+    <!-- Main content -->
+    <div class="container">
+        <div class="profile-details">
+            <h2>User Profile</h2>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Date Joined:</strong> {{ user.date_joined }}</p>
+        </div>
+        <div class="edit-profile-form">
+            <h3>Edit Profile</h3>
+            <form class="profile-form" action="{% url 'save_profile' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+                </div>
+                
+                <button type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

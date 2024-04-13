@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">    
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evo Guard | Complaint</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Light background color */
+            font-family: Arial, sans-serif; /* Specify font family */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow effect */
+        }
+        h1 {
+            color: #333; /* Dark text color */
+        }
+        p {
+            color: #666; /* Medium text color */
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* Blue button color */
+            color: #fff; /* Button text color */
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>  
+    <div class="container">
+
+        <h1>Your complaint has been submitted</h1>
+        <p>Thank you for submitting your complaint.</p>
+        
+        <h4>You can track the status of your complaint using the tracking ID below:</h4>
+        <h2>Tracking ID: {{tracking_id }}</h2>
+        
+        <a href="{%url 'home'%}" class="button">Go to Home Page</a> <!-- Button to go to home page -->
+    </div>
+</body>
+</html>
