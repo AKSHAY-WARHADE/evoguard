@@ -87,7 +87,7 @@ def complaint(request):
             tracking_id=(user_email[0:4]  
                 +str(random.randint(100,999))
                 +types[0:2]+str(random.randint(0,9))
-                +types[-1:-3]+area[1:3]).upper()
+                +types[-1:-3]+area[0:3]).upper()
             complaint = form.save(commit=False)
             complaint.user_name = request.user if request.user.is_authenticated else None
             complaint.tracking_id=tracking_id
@@ -176,7 +176,7 @@ def employee_login(request):
             # return render(request,"city/login.html")
             return redirect('emp_main')
         else:
-            messages.info(request,'uername or password is incorrect')
+            messages.info(request,'username or password is incorrect')
     
     return render (request,'city/employee_login.html')
 
